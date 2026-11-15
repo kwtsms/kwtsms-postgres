@@ -1,0 +1,35 @@
+# FILE:      .goreleaser.yaml
+# CREATED:   2026-11-16 02:50 +03
+# TASK:      int-postgres
+# AUTHOR:    M Alhassoun
+# WHAT:      GoReleaser v2 config: static worker binaries for linux and darwin on amd64 and arm64, with the SQL files.
+# WHY:       One archive per platform that holds the worker and the SQL it needs.
+# USAGE:     run by .github/workflows/release.yml on a v* tag
+
+version: 2
+
+builds:
+  - id: worker
+    main: ./cmd/kwtsms-pg-worker
+    binary: kwtsms-pg-worker
+    env:
+      - CGO_ENABLED=0
+    goos: [linux, darwin]
+    goarch: [amd64, arm64]
+    ldflags: ["-s", "-w"]
+
+archives:
+  - formats: [tar.gz]
+    name_template: "kwtsms-pg-worker_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - LICENSE
+      - README.md
+      - CHANGELOG.md
+      - sql/*.sql
+      - examples/*.sql
+
+checksum:
+  name_template: checksums.txt
+
+changelog:
+  disable: true

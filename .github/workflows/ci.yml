@@ -1,0 +1,70 @@
+# FILE:      .github/workflows/ci.yml
+# CREATED:   2026-11-16 02:50 +03
+# TASK:      int-postgres
+# AUTHOR:    M Alhassoun
+# WHAT:      CI: go vet, gofmt check, build, unit tests, and SQL + worker integration tests on Postgres 12, 16, 17.
+# WHY:       The integration tests need a real PostgreSQL; they run only here, in service containers.
+# USAGE:     runs on every push and pull request
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: gofmt
+        run: test -z "$(gofmt -l .)" || { gofmt -l .; exit 1; }
+      - name: go vet
+        run: go vet ./... && go vet -tags integration ./...
+      - name: go build
+        run: go build ./...
+      - name: unit tests
+        run: go test -count=1 -race ./...
+
+  integration:
+    needs: unit
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        postgres: ["12", "16", "17"]
+    services:
+      postgres:
+        image: postgres:${{ matrix.postgres }}
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: kwtsms_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      KWTSMS_TEST_DATABASE_URL: postgres://postgres:postgres@localhost:5432/kwtsms_test?sslmode=disable
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: install.sql runs twice without error (idempotent)
+        run: |
+          psql "$KWTSMS_TEST_DATABASE_URL" -v ON_ERROR_STOP=1 -f sql/install.sql
+          psql "$KWTSMS_TEST_DATABASE_URL" -v ON_ERROR_STOP=1 -f sql/install.sql
+          psql "$KWTSMS_TEST_DATABASE_URL" -v ON_ERROR_STOP=1 -f sql/uninstall.sql
+      - name: integration tests
+        run: go test -count=1 -race -tags integration -v ./internal/worker/...
