@@ -1,5 +1,5 @@
 -- FILE:      examples/orders_trigger.sql
--- CREATED:   2026-11-16 02:50 +03
+-- CREATED:   2026-11-16 01:56 +03
 -- TASK:      int-postgres
 -- AUTHOR:    M Alhassoun
 -- WHAT:      Example: an orders table whose AFTER INSERT trigger queues an SMS through kwtsms.enqueue().

@@ -1,5 +1,5 @@
 -- FILE:      sql/install.sql
--- CREATED:   2026-11-16 02:05 +03
+-- CREATED:   2026-11-16 01:56 +03
 -- TASK:      int-postgres
 -- AUTHOR:    M Alhassoun
 -- WHAT:      Installs the kwtsms schema: outbox table, settings, normalization, enqueue(), caps trigger,

@@ -1,5 +1,5 @@
 -- FILE:      sql/worker_role.sql
--- CREATED:   2026-11-16 02:05 +03
+-- CREATED:   2026-11-16 01:56 +03
 -- TASK:      int-postgres
 -- AUTHOR:    M Alhassoun
 -- WHAT:      Creates the least-privilege login role the worker runs as.

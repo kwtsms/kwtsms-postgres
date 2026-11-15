@@ -1,5 +1,5 @@
 # FILE:      Dockerfile
-# CREATED:   2026-11-16 02:50 +03
+# CREATED:   2026-11-16 01:56 +03
 # TASK:      int-postgres
 # AUTHOR:    M Alhassoun
 # WHAT:      Builds the kwtsms-pg-worker static binary and runs it on distroless/static as a non-root user.

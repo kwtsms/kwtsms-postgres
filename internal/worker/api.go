@@ -1,5 +1,5 @@
 // FILE:      internal/worker/api.go
-// CREATED:   2026-11-16 02:10 +03
+// CREATED:   2026-11-16 01:56 +03
 // TASK:      int-postgres
 // AUTHOR:    M Alhassoun
 // WHAT:      Sends one batch through the kwtsms-go library and classifies the outcome.

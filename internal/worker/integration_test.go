@@ -1,7 +1,7 @@
 //go:build integration
 
 // FILE:      internal/worker/integration_test.go
-// CREATED:   2026-11-16 02:40 +03
+// CREATED:   2026-11-16 01:56 +03
 // TASK:      int-postgres
 // AUTHOR:    M Alhassoun
 // WHAT:      SQL and worker integration tests against a real PostgreSQL (GitHub Actions service container).

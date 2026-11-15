@@ -1,5 +1,5 @@
 // FILE:      internal/worker/store.go
-// CREATED:   2026-11-16 02:15 +03
+// CREATED:   2026-11-16 01:56 +03
 // TASK:      int-postgres
 // AUTHOR:    M Alhassoun
 // WHAT:      All SQL the worker runs: claim, finish, reap, cap checks.
