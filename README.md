@@ -3,6 +3,8 @@
 Send SMS from PostgreSQL through [kwtSMS](https://www.kwtsms.com). An outbox table, a SQL function, and a small worker.
 Your app (or a trigger) queues a message with one statement; the worker sends it and writes the result back to the row.
 
+All kwtSMS integrations: [kwtsms.com/integrations](https://www.kwtsms.com/integrations/)
+
 ## Quick start
 
 ```sh
